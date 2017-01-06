@@ -1,0 +1,191 @@
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>D3 Arc Gauge</title>
+  <link rel="stylesheet prefetch" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.css">
+  <link rel="stylesheet" type="text/css" href="css/style.css" />
+</head>
+
+<body>
+  <div class="wrapper">
+  </div>
+  <button onclick="arcBackFillColor()">Back Fill Color</button>
+  <button onclick="arcDefaultColor()">Default Arc Color</button>
+  <button onclick="topThresholdColor()">Top Threshold Color</button>
+  <button onclick="bottomThresholdColor()">Bottom Threshold Color</button>
+  <button onclick="minMeterFontColor()">Min Meter Font Color</button>
+  <button onclick="maxMeterFontColor()">Max Meter Font Color</button>
+  <button onclick="valueFontColor()">Value Font Color</button>
+  <button onclick="labelFontColor()">Label Font Color</button>
+  <button onclick="subLabelFontColor()">Sub Label Font Color</button>
+  <br>
+  <br>
+  <button onclick="shrink()">Shrink</button>
+  <button onclick="enlarge()">Enlarge</button>
+  <br>
+  <br>
+  <button onclick="low()">Low</button>
+  <button onclick="mid()">Mid</button>
+  <button onclick="high()">High</button>
+  <br>
+  <br>
+  <button onclick="setDecimalZero()">No Decimal</button>
+  <button onclick="setDecimalOne()">One Decimal</button>
+  <button onclick="setDecimalTwo()">Two Decimal</button>
+  <br>
+  <br>
+  <button onclick="destroy()">Destroy</button>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.2.3/d3.js"></script>
+  <script src="https://code.jquery.com/jquery-3.1.0.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.js"></script>
+  <script src="js/d3-arc-gauge.js"></script>
+  <script>
+  let that = this;
+
+  function getRandom() {
+    return Math.floor(Math.random() * 100);
+  }
+
+  function getNow() {
+    return Date().slice(16, 24);
+  }
+  randomColor = ["#C62828", "#BA68C8", "#1976D2", "#FFB74D", "#607D8B"];
+
+  function getRandomColor() {
+    return randomColor[Math.floor(Math.random() * 5)];
+  }
+
+
+  let thresholds = [{
+    name: 'Alarm High',
+    value: 90,
+    type: 'High',
+    alarm: true
+  }, {
+    name: 'Pump On',
+    value: 55,
+    type: 'High',
+    alarm: false
+  }, {
+    name: 'Pump On',
+    value: 40,
+    type: 'Low',
+    alarm: false
+  }, {
+    name: 'Alarm Low',
+    value: 70,
+    type: 'Low',
+    alarm: true
+  }];
+
+  let arcGauge = new ArcGauge($(".wrapper"), {
+    value: 50,
+    thresholds: thresholds
+  });
+
+  $(".wrapper").resizable({
+    stop: function(event, ui) {
+      arcGauge.redraw();
+    }
+  });
+
+  arcGauge.click(function() {
+    arcGauge.updateValue(that.getRandom());
+  });
+
+  function arcBackFillColor() {
+    arcGauge.updateColor({
+      arcBackFillColor: that.getRandomColor()
+    });
+  }
+
+  function arcDefaultColor() {
+    arcGauge.updateColor({
+      arcDefaultColor: that.getRandomColor()
+    });
+  }
+
+  function topThresholdColor() {
+    arcGauge.updateColor({
+      topThresholdColor: that.getRandomColor()
+    });
+  }
+
+  function bottomThresholdColor() {
+    arcGauge.updateColor({
+      bottomThresholdColor: that.getRandomColor()
+    });
+  }
+
+  function minMeterFontColor() {
+    arcGauge.updateColor({
+      minMeterFontColor: that.getRandomColor()
+    });
+  }
+
+  function maxMeterFontColor() {
+    arcGauge.updateColor({
+      maxMeterFontColor: that.getRandomColor()
+    });
+  }
+
+  function valueFontColor() {
+    arcGauge.updateColor({
+      valueFontColor: that.getRandomColor()
+    });
+  }
+
+  function labelFontColor() {
+    arcGauge.updateColor({
+      labelFontColor: that.getRandomColor()
+    });
+  }
+
+  function subLabelFontColor() {
+    arcGauge.updateColor({
+      subLabelFontColor: that.getRandomColor()
+    });
+  }
+
+  function shrink() {
+    document.getElementsByClassName('wrapper')[0].setAttribute("style", "width:200px;height:200px;");
+    arcGauge.redraw();
+  }
+
+  function enlarge() {
+    document.getElementsByClassName('wrapper')[0].setAttribute("style", "width:400px;height:400px;");
+    arcGauge.redraw();
+  }
+
+  function high() {
+    arcGauge.updateValue(90);
+  }
+
+  function mid() {
+    arcGauge.updateValue(55);
+  }
+
+  function low() {
+    arcGauge.updateValue(9);
+  }
+
+  function setDecimalZero() {
+    arcGauge.setDecimal(0);
+  }
+
+  function setDecimalOne() {
+    arcGauge.setDecimal(1);
+  }
+
+  function setDecimalTwo() {
+    arcGauge.setDecimal(2);
+  }
+
+  function destroy() {
+    arcGauge.destroy();
+  }
+  </script>
+</body>
+
+</html>
